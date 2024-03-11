@@ -1,49 +1,50 @@
 # from: https://github.com/spurin/python-ipc-examples
-
+# share memory sm 
+# si crea memeoria condivisa utilizzata per la comunicazione tra processi
 import logging
 import os
 import time
 from multiprocessing import Process, Array
 
 # Process1 logic
-def process1(shared):
-    process1_logger = logging.getLogger('process1')
-    process1_logger.info(f"Pid:{os.getpid()}")
+def process1(shared): # prede array e genera dei numeri e li scrive nell'array
+    process1_logger = logging.getLogger('process1') # logging è un modulo di python che permette di scrivere messaggi di log
+    process1_logger.info(f"Pid:{os.getpid()}") 
 
     # Write 10 entries
-    for i in range(1,11):
+    for i in range(1,11): 
 
         # Attempt to write to our shared memory until succession
         while True:
             try:
-                process1_logger.info(f"Writing {int(i)}")
-                shared[i-1] = i
-                if i % 6 == 0:
-                    process1_logger.info("Intentionally sleeping for 5 seconds")
-                    time.sleep(5)
+                process1_logger.info(f"Writing {int(i)}") # scrive il numero
+                shared[i-1] = i # scrive il numero nell'array
+                if i % 6 == 0: # bloccare la scrittura , creare in boco temporale tra i processi
+                    process1_logger.info("Intentionally sleeping for 5 seconds") 
+                    time.sleep(5) 
                 break
             except Exception as e:
-                print(str(e))
+                print(str(e)) 
                 pass
 
     # Log completion
-    process1_logger.info("Finished process 1")
+    process1_logger.info("Finished process 1") 
 
 
 # Process2 logic
-def process2(shared):
-    process2_logger = logging.getLogger('process2')
-    process2_logger.info(f"Pid:{os.getpid()}")
+def process2(shared): # prende l'array e legge le posizione se non trova valore diverso da -1 diche che non è aggiornato e aspetta
+    process2_logger = logging.getLogger('process2') 
+    process2_logger.info(f"Pid:{os.getpid()}") 
 
     # Expect 10 entries
     for i in range(10):
         while True:
             try:
-                line = shared[i]
-                if line == -1:
+                line = shared[i] # legge il valore
+                if line == -1: # se non trova valore diverso da -1 diche che non è aggiornato e aspetta
                     process2_logger.info("Data not available sleeping for 1 second before retrying")
-                    time.sleep(1)
-                    raise Exception('pending')
+                    time.sleep(1) 
+                    raise Exception('pending') # va avanti con il ciclo 
                 process2_logger.info(f"Read: {int(line)}")
                 break
             except Exception:

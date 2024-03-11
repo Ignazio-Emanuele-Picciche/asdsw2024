@@ -1,101 +1,120 @@
-# from: https://github.com/spurin/python-ipc-examples
-
+# Importa i moduli necessari
 import logging
 import os
 import time
 from multiprocessing import Process
 
-# Process1 logic
+# Logica del Processo1
 def process1():
+    # Crea un logger chiamato 'process1'
     process1_logger = logging.getLogger('process1')
+    
+    # Registra l'ID del processo corrente
     process1_logger.info(f"Pid:{os.getpid()}")
+    
+    # Definisce il percorso del FIFO
     fifo = '/tmp/process_fifo.txt'
 
-    # Create a fifo, os.mkfifo will block until there is a reader (process2)
+    # Crea un FIFO, os.mkfifo si bloccherà fino a quando non ci sarà un lettore (process2)
     os.mkfifo(fifo)
 
-    # Open fifo for writing
+    # Apri il FIFO per la scrittura
     file = open(fifo, 'w')
 
-    # Write 10 entries
+    # Scrivi 10 voci nel FIFO
     for i in range(1,11):
-
-        # Attempt to write to our fifo until succession
+        # Tenta di scrivere nel FIFO fino al successo
         while True:
             try:
+                # Registra ogni tentativo di scrivere nel FIFO
                 process1_logger.info(f"Writing {int(i)}")
+                
+                # Scrivi nel FIFO
                 file.write(f"{i}\n")
+                
+                # Esegui il flush del buffer di scrittura per assicurarti che i dati siano effettivamente scritti
                 file.flush()
+                
+                # Se la scrittura è stata eseguita con successo, interrompi il ciclo
                 break
             except:
+                # Se la scrittura non è stata eseguita con successo, continua il ciclo
                 pass
 
-    # Clean up fifo
+    # Chiudi il FIFO per pulire le risorse
     file.close()
 
-    # Grace for the read process to complete
+    # Tempo di cortesia per il completamento del processo di lettura
     process1_logger.info("Sleeping for 2")
     time.sleep(2)
 
-    # Log completion
+    # Registra il completamento
     process1_logger.info("Finished process 1")
 
-
-# Process2 logic
+# Logica del Processo2
 def process2():
+    # Crea un logger chiamato 'process2'
     process2_logger = logging.getLogger('process2')
+    
+    # Registra l'ID del processo corrente
     process2_logger.info(f"Pid:{os.getpid()}")
+    
+    # Definisce il percorso del FIFO
     fifo = '/tmp/process_fifo.txt'
 
-    # Keep attempting to open the fifo, ignore race condition failures
+    # Continua a tentare di aprire il FIFO, ignora i fallimenti delle condizioni di gara
     while True:
         try:
+            # Apri il FIFO per la lettura
             file = open(fifo, 'r')
             break
         except:
             pass
 
-    # Expect 10 entries
+    # Aspetta 10 voci
     count = 0
     while count < 10:
         while True:
             try:
+                # Leggi una riga dal FIFO
                 line = file.readline()
+                
+                # Registra la riga letta
                 process2_logger.info(f"Read: {int(line)}")
+                
+                # Incrementa il contatore
                 count += 1
                 break
             except:
                 pass
 
-    # Clean up fifo
+    # Chiudi il FIFO e rimuovilo
     file.close()
     os.remove(fifo)
 
-    # Log completion
+    # Registra il completamento
     process2_logger.info("Finished process 2")
 
-
-# Main
+# Funzione principale
 def main():
-
-    # Setup parent logger and log pid
+    # Configura il logger principale e registra l'ID del processo
     parent_logger = logging.getLogger('parent')
     parent_logger.info(f"Pid:{os.getpid()}")
 
-    # Setup processes
+    # Configura i processi
     procs = [Process(target=process1), Process(target=process2)]
 
-    # Start processes
+    # Avvia i processi
     for proc in procs:
         proc.start()
 
-    # Run to completion
+    # Aspetta che i processi terminino
     for proc in procs:
         proc.join()
 
-# Setup simple logging
+# Configura un semplice logging
 logging.basicConfig(level=logging.INFO)
 
-# Execute main
+# Esegui la funzione principale
 if __name__ == '__main__':
     main()
