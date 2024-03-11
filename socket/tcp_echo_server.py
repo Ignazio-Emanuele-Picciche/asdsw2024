@@ -53,7 +53,7 @@ while True:
         break
 
     # Print the message received from the client
-    print('{}: echo message: {}'.format(addr, data))
+    print('{}: echo message: {}'.format(addr, data[:-1].decode('utf-8')))
     
     # Send the received data back to the client
     # This is what makes this server an "echo" server
