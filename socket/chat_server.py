@@ -26,15 +26,12 @@ def connection_manager_thread(addr, conn):
             break
         if bool(re.search('STOP', data.decode('utf-8'))):  # If the received data is a stop command, break the loop
             break
-        if bool(re.search('DM', data.decode('utf-8'))):
-            print('Logica di invio di messaggio privato')
-            # logica di riconoscimetno {'addr': '172.0.0.1', 'port': 44444, 'msg': 'messaggio'}
+        if bool(re.search('^\[DM\]', data.decode('utf-8'))):
+            print('immettere logica di invio messaggio privato')
+            # logica di riconoscimento {'addr': '127.0.0.1', 'port': '44444', 'msg': 'messaggio'}
             # sendToUser(daddr, msg)
             # continue
-    
-
-
-        print('{}: chat message: {}'.format(addr, data[:-1].decode('utf-8')))  # Print the received chat message
+        print('{}: chat message: {}'.format(addr, data[:-1].decode('utf-8')))
         
         dataToSend = '{}: {}'.format(addr, data.decode('utf-8'))  # Format the data to send
 
