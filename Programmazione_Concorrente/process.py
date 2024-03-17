@@ -11,7 +11,7 @@ global value # variabile globale condivisa tra i processi
 def sleeper(name): #, value): # value è una variabile condivisa tra i processi, ma non è una
     global value 
     t = gmtime() # tempo corrente
-    value=s
+    #value=s
     s = randint(4,20) # tempo di attesa
     txt = str(t.tm_min) + ':' + str(t.tm_sec) + ' ' + name + ' is going to sleep for ' + str(s) + ' seconds '  
     #+ str(value) 
@@ -23,8 +23,9 @@ def sleeper(name): #, value): # value è una variabile condivisa tra i processi,
     print(txt)
 
 if __name__ == '__main__': # solo se è il modulo principale
+    #global value # variabile globale condivisa tra i processi
+
     process_list = list() # lista di processi
-    global value # variabile globale condivisa tra i processi
     for i in range(10): # crea 10 processi
         p = Process(target=sleeper, args=('mike_{}'.format(i),))   #, value)) # crea un processo , target è la funzione da eseguire, args sono gli argomenti della funzione
         process_list.append(p)  # aggiunge il processo alla lista
