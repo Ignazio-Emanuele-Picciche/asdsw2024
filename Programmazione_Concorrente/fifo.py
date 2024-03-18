@@ -41,7 +41,10 @@ def process1():
                 # Se la scrittura non è stata eseguita con successo, continua il ciclo
                 pass
 
-    # Chiudi il FIFO per pulire le risorse
+        if (i % 6) == 0:
+            time.sleep(5)
+
+    # Clean up fifo
     file.close()
 
     # Tempo di cortesia per il completamento del processo di lettura

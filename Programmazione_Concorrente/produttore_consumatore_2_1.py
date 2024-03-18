@@ -90,6 +90,7 @@ if __name__ == "__main__":
 
     produttore1.start()
     produttore2.start()
+    time.sleep(0.1)
     consumatore.start()
     
     logging.info("Main       :  wait for the threads to finish")
