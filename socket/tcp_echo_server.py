@@ -2,7 +2,7 @@
 Se la metto in 127.0.0.1 posso ricevere solo richieste dalla macchina in cui mi trovo, 
 se la metto in 10.0.2.15 posso ricevere sia dalla macchina in cui mi trovo che da altre macchine, ma nella stessa rete
 
-10000 è il PORTO, il numero che serve ad identificare l'applicazione
+10000 è la PORTA, il numero che serve ad identificare l'applicazione
 
 telnet: comando che serve per instaurare una connessione tcp verso un server
 '''

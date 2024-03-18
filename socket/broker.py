@@ -186,7 +186,7 @@ def disconnect(id_):
 # Function to apply the command received from the client
 def applyCommand(id_, conn, comando, stato):
     if (stato == "CONNESSO"):
-        if comando['azione'] == "SUBSCRIBE":
+        if comando['azione'] == "SUBSCRIBE":    
             subscribe(id_, conn, comando)
             return True
         if comando['azione'] == "UNSUBSCRIBE":

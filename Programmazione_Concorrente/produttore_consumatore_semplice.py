@@ -24,7 +24,8 @@ def thread_produttore(nome, nomefile):
         while row:
             # Acquire the lock, append the line to the shared buffer, then release the lock
             mutex.acquire()
-            sharedBuffer.append(row[:-1])
+            sharedBuffer.append(row[:-1]) # with row[:-1] remove the newline character from the end of the line
+            logging.info(f"{nome} has written to the shared memory the line [{row[:-1]}]")
             mutex.release()
             # Sleep for a random amount of time between 0 and 2 seconds
             time.sleep(randrange(2))

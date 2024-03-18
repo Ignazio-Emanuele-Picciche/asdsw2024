@@ -34,8 +34,8 @@ def sleeper(name, num_thread):
     txt = name + ' sees shared_x being ' + str(shared_x)
     print(txt)
 
-    for s in sleeplist: s.start()
-    for s in sleeplist: s.join()
+    for s in sleeplist: s.start() # start all threads
+    for s in sleeplist: s.join() # wait for all threads to finish
 
     txt = name + ' sees shared_x being ' + str(shared_x)
     print(txt)
@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
     process_list = list()
     for i in range(10):
-        process_list.append(Process(target=sleeper, args=('bob_' + str(i), randint(2,4),)))
+        process_list.append(Process(target=sleeper, args=('bob_' + str(i), randint(2,4),))) 
 
     global shared_x
     shared_x = randint(10,99)

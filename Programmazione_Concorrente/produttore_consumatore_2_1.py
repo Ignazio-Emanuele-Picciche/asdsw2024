@@ -45,6 +45,7 @@ def thread_produttore(nome, nomefile):
         row = f.readline() #   prende righe dai file e da degli append continui e le mette in memoria condivisa
         while row:
             safeWrite(row[:-1]) # se non metto mutex il thread consumatore potrebbe leggere la memoria condivisa mentre il produttore la sta scrivendo
+            logging.info(f"{nome} ha scritto nella memoria condivisa la riga [{row[:-1]}]")
             time.sleep(randrange(2)) # attesa randomica
             row = f.readline() # legge la riga successiva
 
