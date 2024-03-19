@@ -30,7 +30,7 @@ def sendDataToRing(clientSocket, nextNode, idSorgente, idDestinazione, mess):
     clientSocket.sendto(stringaMessaggio.encode(), (nextNodeAddress, nextNodePort))
 
 
-class RingPrompt(Cmd):
+class RingPrompt(Cmd): # Command Line Interface, classe base per la gestione di un prompt
     # Set the command prompt and introduction message
     prompt = ''
     intro  = 'Benvenuto nel ring. Usa ? per accedere all\'help'
