@@ -37,15 +37,15 @@ def decodeMessage(addr, mess):
     # Use a regular expression to extract the command from the message
     result = re.search('^\[([A-Z]*)\]' , mess)
     if bool(result):
-        command = result.group(1)
+        command = result.group(1) # Extract the command from the message
         logging.debug('COMMAND: {}'.format(command))
 
         try:
             # Use a dictionary of lambdas to call the appropriate function based on the command
             action = {
-                'JOIN'  : lambda param1,param2 : decodeJoin(param1, param2),
-                'LEAVE' : lambda param1,param2 : decodeLeave(param1, param2)
-            }[command](addr, mess)
+                'JOIN'  : lambda param1,param2 : decodeJoin(param1, param2), # If the command is 'JOIN', call the decodeJoin function
+                'LEAVE' : lambda param1,param2 : decodeLeave(param1, param2) # If the command is 'LEAVE', call the decodeLeave function
+            }[command](addr, mess) # Call the appropriate function based on the command
         except:
             action = {}
             action['command'] = 'unknown' # If the command is not recognized, set the command to 'unknown'
@@ -58,13 +58,14 @@ def decodeMessage(addr, mess):
     return action
 
 # Function to update the ring when a node joins
+# Add node to the nodes list
 def updateRingJoin(action, listOfNodes):
     logging.debug('RING JOIN UPDATE')
     node = {}
 
     # Assign an ID to the new node
     id_ = 1
-    idList = [int(eNode['id']) for eNode in listOfNodes]
+    idList = [int(eNode['id']) for eNode in listOfNodes] # Create a list of node IDs
     for i in range(1, len(listOfNodes)+2):
         if i not in idList:
             id_ = i
@@ -78,6 +79,7 @@ def updateRingJoin(action, listOfNodes):
     # Check if the node already exists in the list of nodes
     nodes = [(eNode['addr'], eNode['port']) for eNode in listOfNodes]
 
+    # Add the node to the list of nodes, if it does not already exist
     if (node['addr'], node['port']) not in nodes:
         logging.debug('OK:  Adding node {}:{}'.format(node['addr'], node['port']))
         listOfNodes.append(node)
@@ -99,14 +101,15 @@ def updateRingLeave(action, listOfNodes):
         logging.debug('NOK: Remove node {}:{}'.format(action['addr'],action['port']))
         return False
 
-    # Remove the node from the list of nodes
+    # Select the node to remove
     nodeToRemove = dictOfNodes[action['id']]
 
     logging.debug('Removing node {}:{}'.format(nodeToRemove['addr'], nodeToRemove['port']))
+    # Remove the node from the list of nodes
     if action['addr'] == nodeToRemove['addr'] and action['port'] == nodeToRemove['port']:
         logging.debug('OK:  Remove node {}:{}'.format(action['addr'],action['port']))
         listOfNodes.remove(nodeToRemove)
-    else:
+    else: # If the address and port do not match, return False
         logging.debug('NOK: Remove node {}:{}'.format(action['addr'],action['port']))
         return False
     #
@@ -135,9 +138,9 @@ def updateRing(action, listOfNodes, oracleSocket):
 def sendConfigurationToAll(listOfNodes, oracleSocket):
     N = len(listOfNodes)
     for idx, node in enumerate(listOfNodes):
-        if idx == N-1:
+        if idx == N-1: # se entro in questo controllo l'ultimo nodo si collega al primo
             nextNode = listOfNodes[0]
-        else:
+        else: # il prossimo nodo è idx+1
             nextNode = listOfNodes[idx + 1]
 
         # Send the updated configuration to the node
@@ -148,7 +151,6 @@ def sendConfigurationToAll(listOfNodes, oracleSocket):
         message = '[CONF] {}'.format(json.dumps(message))
         logging.debug('UPDATE MESSAGE: {}'.format(message))
         oracleSocket.sendto(message.encode(), (addr, port))
-        #
 
 if __name__ == '__main__':
 
