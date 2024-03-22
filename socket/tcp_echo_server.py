@@ -46,7 +46,7 @@ while True:
     # Receive data from the client
     # The recv() function blocks and waits for incoming data
     # It returns the data as a bytes object
-    data = conn.recv(1024)
+    data = conn.recv(1024) #dimensione massima (1024 byte)
 
     # If recv() returns an empty bytes object, the client closed the connection, so break out of the loop
     if not data:
