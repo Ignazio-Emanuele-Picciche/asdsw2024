@@ -40,6 +40,13 @@ def decodeMessage(addr, mess):
         command = result.group(1) # Extract the command from the message
         logging.debug('COMMAND: {}'.format(command))
 
+        '''
+        if command == 'JOIN':
+            decodeJoin(addr, mess)
+        else if command == 'LEAVE':
+            decodeLEAVE(addr, mess)
+        '''
+
         try:
             # Use a dictionary of lambdas to call the appropriate function based on the command
             action = {
