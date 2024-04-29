@@ -1,0 +1,7 @@
+in caso di Address already in use
+Port 6001 is in use by another program. Either identify and stop that program, or start the server with a different port.
+
+comandi:
+sudo netstat -nlp | grep <numero porta>
+kill <PID>
+

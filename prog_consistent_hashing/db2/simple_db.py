@@ -32,7 +32,7 @@ def init_db():
 #     cache[key] = value
 
 @app.route('/add', methods=['POST'])
-def update():
+def add():
     data = request.json
     key= data.get('key')
     value = data.get('value')
