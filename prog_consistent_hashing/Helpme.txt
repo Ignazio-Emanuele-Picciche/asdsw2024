@@ -5,3 +5,7 @@ comandi:
 sudo netstat -nlp | grep <numero porta>
 kill <PID>
 
+
+ps aux | grep simple_db -> prende tutti i processi associati a simple_db
+
+history | grep POST -> prende tutti i comandi in cui era presente la parola POST
