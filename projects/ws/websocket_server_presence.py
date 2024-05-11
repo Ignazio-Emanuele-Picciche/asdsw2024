@@ -36,13 +36,14 @@ async def chat_server(websocket, path):
         username = await websocket.recv()
 
         connected_clients[websocket] = username
-        await send_chat_history(websocket)
+        await send_chat_history(websocket) # delego l'invio della chat history al nuovo utente che si è collegato
         join_message = f"System: {username} has joined the chat."
-        await send_to_all(join_message)
+        await send_to_all(join_message) # invia il nuovo messaggio 
         chat_history.append(join_message)
 
         await send_user_list()
 
+        # programmazione asincrona
         async for message in websocket:
             chat_message = f"{username}: {message}"
             chat_history.append(chat_message)

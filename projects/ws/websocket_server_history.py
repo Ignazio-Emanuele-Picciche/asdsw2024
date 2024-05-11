@@ -1,6 +1,8 @@
 import asyncio
 import websockets
 
+# I nuovi utenti ricevono i vecchi messaggi
+
 connected_clients = {}
 
 chat_history = []

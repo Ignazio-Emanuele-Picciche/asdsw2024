@@ -20,7 +20,7 @@
         const input = document.getElementById('input');
         const sendButton = document.getElementById('send');
 
-        const ws = new WebSocket('ws://localhost:7000');
+        const ws = new WebSocket('ws://165.22.84.247:80');
 
         ws.onmessage = (event) => {
             const message = document.createElement('div');

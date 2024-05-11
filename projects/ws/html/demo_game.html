@@ -51,7 +51,7 @@
         let myUsername = null;
         let playerPosition = {};
 
-        const ws = new WebSocket('ws://localhost:7000');
+        const ws = new WebSocket('ws://165.22.84.247:80');
 
         ws.onmessage = (event) => {
             const message = event.data;
@@ -96,7 +96,8 @@
                 }
             }
         });
-
+        
+        <!-- una volta ricevuto input il server aggiorna e rinvia a tutti la nuova scacchiera (anche il mittente)-->
         function drawChessboard() {
             chessboard.innerHTML = '';
             for (let i = 0; i < BOARD_SIZE; i++) {
