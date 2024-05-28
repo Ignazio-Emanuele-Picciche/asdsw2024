@@ -31,7 +31,7 @@
         const usernameInput = document.getElementById('username');
         const setUsernameButton = document.getElementById('setUsername');
 
-        const ws = new WebSocket('ws://165.22.84.247:80');
+        const ws = new WebSocket('ws://localhost:7000');
 
         ws.onmessage = (event) => {
             const message = event.data;
