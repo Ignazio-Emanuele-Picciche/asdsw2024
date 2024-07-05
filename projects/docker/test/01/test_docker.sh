@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the base URL
-BASE_URL="http://localhost:5000"
+BASE_URL="http://localhost:5002"
 
 # Store a key-value pair
 echo "Storing key-value pair..."

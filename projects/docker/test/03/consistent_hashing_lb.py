@@ -20,7 +20,7 @@ def get_node(key):
 def store():
     key = request.json['key']
     node_url = get_node(key)
-    response = redirect(f'{node_url}/store', code=307)
+    response = redirect(f'{node_url}/store', code=307) # Call the store endpoint of the selected node
     return response
 
 @app.route('/retrieve/<key>', methods=['GET'])
