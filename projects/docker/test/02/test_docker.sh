@@ -28,7 +28,7 @@ echo -e "\n"
 
 # Verify round-robin behavior (you may need to run this multiple times)
 for i in {1..6}; do
-    echo "Retrieving value for key '1' (Round $i)..."
+    echo "Retrieving value for key '4' (Round $i)..."
     curl -X GET $BASE_URL/retrieve/4
     echo -e "\n"
 done
